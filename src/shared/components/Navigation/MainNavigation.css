@@ -1,0 +1,28 @@
+.main-navigation__title {
+    margin: 10px 50px;
+}
+
+.main-navigation__title a {
+    color: aliceblue;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.main-navigation__menu-btn {
+    background: transparent;
+    border: solid 2px white;
+    padding: 2px 5px;
+    border-radius: 5px;
+    font-size: x-large;
+    color: white;
+    display: none;
+}
+
+@media screen and (max-width: 415px) {
+    .main-navigation__menu-btn {
+        display: inline-block;
+    }
+
+    .main-navigation__title {
+        margin: 20px 10px;
+    }
+}

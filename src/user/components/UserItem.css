@@ -4,6 +4,7 @@
     width: 15vw;
     border-radius: 5px;
     padding: 5px;
+    min-width: fit-content;
 }
 
 .user-item__content:hover,

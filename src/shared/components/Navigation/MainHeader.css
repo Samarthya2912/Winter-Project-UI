@@ -1,0 +1,6 @@
+.main-header {
+    display: flex;
+    align-items: center;
+    position: sticky;
+    background-color: rgb(255, 83, 83);
+}
