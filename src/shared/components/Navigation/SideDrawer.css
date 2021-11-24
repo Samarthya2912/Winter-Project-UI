@@ -1,0 +1,29 @@
+.side-drawer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: 0.4s ease;
+    transform: translateY(-400px);
+}
+
+.side-drawer__show {
+    transform: translateY(60px);
+}
+
+.side-drawer ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgb(255, 83, 83);
+    width: 100vw;
+}
+
+.side-drawer li {
+    padding: 20px;
+    width: 100vw;
+}

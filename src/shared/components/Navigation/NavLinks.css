@@ -5,9 +5,6 @@
     align-items: center;
 }
 
-.nav-links li {
-}
-
 .nav-links a {
     color: white;
     padding: 19px;
@@ -16,5 +13,8 @@
 .nav-link__selected {
     padding: 0 20px;
     color: greenyellow !important;
-    background-color: rgb(255, 0, 119);
+}
+
+@media screen and (max-width: 768px) {
+    
 }
