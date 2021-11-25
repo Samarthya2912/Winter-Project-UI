@@ -1,5 +1,6 @@
 import React from 'react'
 import './PlaceItem.css'
+import Button from '../../shared/FormElelments/Button'
 
 const PlaceItem = props => {
     return (
@@ -12,9 +13,9 @@ const PlaceItem = props => {
             </div>
             <hr />
             <div className="place-item__action-buttons">
-                <button>VIEW ON MAP</button>
-                <button>EDIT</button>
-                <button>DELETE</button>
+                <Button inverse>VIEW ON MAP</Button>
+                <Button to={`/places/${props.id}`}>EDIT</Button>
+                <Button danger>DELETE</Button>
             </div>
         </li>
     )
