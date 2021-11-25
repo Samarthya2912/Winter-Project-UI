@@ -1,0 +1,40 @@
+.place-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: solid gray 1px;
+    margin: 40px 0;
+    width: fit-content;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+.place-item__info h2,
+.place-item__info h3 {
+    margin: 7.5px;
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+.place-item__image {
+    width: 600px;
+    height: 400px;
+}
+
+.place-item__info h4 {
+    font-weight: 400;
+    margin: 5px;
+    margin-bottom: 0;
+}
+
+.place-item__action-buttons {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.place-item__action-buttons * {
+    margin: 0px 10px;
+}

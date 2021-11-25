@@ -20,7 +20,7 @@ const MainNavigation = props => {
             </nav>
         </SideDrawer>
         <MainHeader>
-            <button className="main-navigation__menu-btn" onClick={clickHandler}><i class="bi bi-list"></i></button>
+            <button className="main-navigation__menu-btn" onClick={clickHandler}><i className="bi bi-list"></i></button>
             <h1 className="main-navigation__title"><Link to="/">MyPlaces</Link></h1>
             <nav className="main-navigation__nav-links">
                 <NavLinks sideDrawerRef={sideDrawerRef} />
