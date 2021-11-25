@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './PlaceItem.css'
 import Button from '../../shared/FormElelments/Button'
 import Modal from '../../shared/UIElements/Modal'
+import Map from '../../shared/UIElements/Map'
 
 const PlaceItem = props => {
     const [showMap, setShowMap] = useState(false);
@@ -18,7 +19,7 @@ const PlaceItem = props => {
             footerClass="place-item__modal-actions"
             footer={<Button onClick={closeMap}>CLOSE</Button>}
             >
-                <div className="map-container">Hello!</div>
+                <Map />
             </Modal>
             <li className="place-item">
                 <img className="place-item__image" src={props.imageUrl} alt={props.title} />
