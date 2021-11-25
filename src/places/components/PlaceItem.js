@@ -11,7 +11,6 @@ const PlaceItem = props => {
                 <h4>{props.description}</h4>
             </div>
             <hr />
-            <hr />
             <div className="place-item__action-buttons">
                 <button>VIEW ON MAP</button>
                 <button>EDIT</button>

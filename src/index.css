@@ -34,3 +34,8 @@ code {
 a {
   text-decoration: none;
 }
+
+hr {
+  width: 100%;
+  background-color: gray;
+}
