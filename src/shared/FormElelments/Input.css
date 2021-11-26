@@ -1,0 +1,34 @@
+.form-control {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+}
+
+.form-control label {
+    font-weight: bold;
+}
+
+.form-control input,
+.form-control input:focus {
+    border-radius: 2px;
+    border: solid 2px;
+    padding: 5px;
+    outline: none;
+    background-color: rgba(0, 0, 255, 0.15);
+}
+
+.form-control__invalid-input {
+    color: red;
+}
+
+.form-control__invalid-input input,
+.form-control__invalid-input input:focus {
+    background-color: rgba(128, 13, 13, 0.2);
+    border-color: red;
+    outline: none;
+}
+
+.form-control * {
+    margin: 2.5px 5px;
+}
