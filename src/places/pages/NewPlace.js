@@ -6,7 +6,7 @@ import Button from "../../shared/FormElelments/Button";
 import useForm from "../../shared/hooks/form-hook";
 
 const NewPlace = (props) => {
-  const [formState, dispatch] = useForm({
+  const [formState, InputHandler] = useForm({
     inputs: {
       title: {
         value: "",
@@ -23,15 +23,6 @@ const NewPlace = (props) => {
     },
     isValid: false,
   });
-
-  const InputHandler = useCallback((id, value, isValid) => {
-    dispatch({
-      type: "INPUT_CHANGE",
-      inputId: id,
-      value,
-      isValid,
-    });
-  }, []);
 
   const submitHandler = (e) => {
     e.preventDefault();

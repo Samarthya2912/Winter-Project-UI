@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useParams } from "react-router";
 import "./UpdatePlace.css";
 import Button from "../../shared/FormElelments/Button";
@@ -41,25 +41,41 @@ const DUMMY_PLACES = [
 const UpdatePlace = (props) => {
   const { placeId } = useParams();
 
-  const requiredPlace = DUMMY_PLACES.filter((place) => place.id === placeId);
-
-  const [formState, dispatch] = useForm({
+  const [formState, InputHandler, setFormData] = useForm({
     inputs: {
-      title: { value: requiredPlace.title, isValid: true },
-      address: { value: requiredPlace.address, isValid: true },
-      description: { validators: requiredPlace.description, isValid: true }
+      title: { value: "", isValid: false },
+      address: { value: "", isValid: false },
+      description: { value: "", isValid: false },
     },
-    isValid: true
+    isValid: false,
   });
 
-  const InputHandler = useCallback((id, value, isValid) => {
-    dispatch({
-      type: 'INPUT_CHANGE',
-      inputId: id,
-      value,
-      isValid
-    })
-  }, [])
+  const requiredPlace = DUMMY_PLACES.filter((place) => place.id === placeId);
+
+  useEffect(() => {
+    setFormData({
+      title: {
+        value: requiredPlace.title,
+        isValid: true,
+      },
+      description: {
+        value: requiredPlace.description,
+        isValid: true,
+      },
+      address: {
+        value: requiredPlace.address,
+        isValid: true,
+      },
+    }, true);
+  }, []);
+
+  if (!requiredPlace) {
+    return (
+      <div className="center column">
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
 
   return (
     <div className="update-place-wrapper center column">
@@ -90,13 +106,15 @@ const UpdatePlace = (props) => {
           id="address"
           element="textarea"
           label="Address"
-          onInput={() => {}}
+          onInput={InputHandler}
           validators={[VALIDATOR_MINLENGTH(5)]}
           errorMessage="Enter valid address."
           initialValue="address"
           initialValidity={true}
         />
-        <Button type="submit" disabled={!formState.isValid}>UPDATE PLACE</Button>
+        <Button type="submit" disabled={!formState.isValid}>
+          UPDATE PLACE
+        </Button>
       </form>
     </div>
   );
