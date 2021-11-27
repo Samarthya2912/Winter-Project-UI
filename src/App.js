@@ -1,11 +1,10 @@
-import { BrowserRouter as Router, Route, Redirect} from 'react-router-dom' 
-import MainNavigation from './shared/components/Navigation/MainNavigation';
-import Users from './user/pages/Users';
-import UserPlaces from './places/pages/UserPlaces';
-import NewPlace from './places/pages/NewPlace';
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import Users from "./user/pages/Users";
+import UserPlaces from "./places/pages/UserPlaces";
+import NewPlace from "./places/pages/NewPlace";
 
 function App() {
-  
   return (
     <Router>
       <MainNavigation />

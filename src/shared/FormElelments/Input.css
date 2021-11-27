@@ -10,12 +10,20 @@
 }
 
 .form-control input,
-.form-control input:focus {
+.form-control textarea,
+.form-control input:focus, 
+.form-control textarea:focus {
     border-radius: 2px;
-    border: solid 2px;
     padding: 5px;
     outline: none;
-    background-color: rgba(0, 0, 255, 0.15);
+    border: solid rgba(0, 0, 0, 0.1) 2px;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.form-control input:focus,
+.form-control textarea:focus {
+    outline: none;
+    border: solid blueviolet 2px;
 }
 
 .form-control__invalid-input {
@@ -23,12 +31,14 @@
 }
 
 .form-control__invalid-input input,
-.form-control__invalid-input input:focus {
+.form-control__invalid-input textarea,
+.form-control__invalid-input input:focus,
+.form-control__invalid-input textarea:focus {
     background-color: rgba(128, 13, 13, 0.2);
-    border-color: red;
+    border: red solid 2px;
     outline: none;
 }
 
 .form-control * {
-    margin: 2.5px 5px;
+    margin: 5px 0;
 }
