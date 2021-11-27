@@ -3,36 +3,10 @@ import Input from "../../shared/FormElelments/Input";
 import "./NewPlace.css";
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/Utils/Validators";
 import Button from "../../shared/FormElelments/Button";
-
-const formReducer = (state, action) => {
-  switch (action.type) {
-    case "INPUT_CHANGE":
-      let formIsValid = true;
-      for (const inputId in state.inputs) {
-        if (inputId === action.inputId) {
-          formIsValid = formIsValid && action.isValid;
-        } else {
-          formIsValid = formIsValid && state.inputs[inputId].isValid;
-        }
-      }
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.inputId]: {
-            value: action.value,
-            isValid: action.isValid,
-          },
-        },
-        isValid: formIsValid,
-      };
-    default:
-      return state;
-  }
-};
+import useForm from "../../shared/hooks/form-hook";
 
 const NewPlace = (props) => {
-  const [formState, dispatch] = useReducer(formReducer, {
+  const [formState, dispatch] = useForm({
     inputs: {
       title: {
         value: "",
@@ -42,6 +16,10 @@ const NewPlace = (props) => {
         value: "",
         isValid: false,
       },
+      address: {
+        value: "",
+        isValid: false
+      }
     },
     isValid: false,
   });
@@ -86,7 +64,7 @@ const NewPlace = (props) => {
           id="address"
           label="Address"
           errorMessage="Please enter a valid address"
-          validators={[VALIDATOR_REQUIRE()]}
+          validators={[VALIDATOR_MINLENGTH(5)]}
           onInput={InputHandler}
         ></Input>
         <Button type="submit" disabled={!formState.isValid}>
