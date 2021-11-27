@@ -55,8 +55,13 @@ const NewPlace = (props) => {
         })
     }, []);
 
+    const submitHandler = (e) => {
+        e.preventDefault();
+        console.log(formState.inputs);
+    }
+
     return (
-        <form className="new-place-form">
+        <form className="new-place-form" onSubmit={submitHandler}>
             <Input
                 element="input"
                 type="text"

@@ -42,3 +42,7 @@
 .form-control * {
     margin: 5px 0;
 }
+
+.form-control textarea {
+    font-family: inherit;
+}
