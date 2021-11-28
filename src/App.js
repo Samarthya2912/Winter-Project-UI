@@ -9,6 +9,7 @@ import Users from "./user/pages/Users";
 import UserPlaces from "./places/pages/UserPlaces";
 import NewPlace from "./places/pages/NewPlace";
 import UpdatePlace from "./places/pages/UpdatePlace";
+import Auth from "./user/pages/Auth"
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
         </Route>
         <Route exact path="/places/:placeId">
           <UpdatePlace />
+        </Route>
+        <Route exact path="/auth">
+          <Auth />
         </Route>
       </Switch>
       <Redirect to="/" />
