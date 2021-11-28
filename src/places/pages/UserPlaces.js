@@ -1,6 +1,7 @@
 import React from 'react'
 import PlaceList from '../components/PlaceList'
 import { useParams } from 'react-router-dom'
+import Button from '../../shared/FormElelments/Button'
 
 const DUMMY_PLACES = [
     {
@@ -32,6 +33,13 @@ const DUMMY_PLACES = [
 const UserPlaces = props => {
     const { uid } = useParams();
     const loadedPlaces = DUMMY_PLACES.filter(place => place.creator === uid);
+
+    if(!loadedPlaces.length) {
+        return <div className="center column">
+            <h1>No places found.</h1>
+            <Button to="/places/new">Share place</Button>
+        </div>
+    }
 
     return (
         <div className="user-places no-overflow"> 
