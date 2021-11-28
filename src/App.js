@@ -16,33 +16,59 @@ import { useCallback, useState } from "react";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const login = useCallback(() => { setIsLoggedIn(true) }, [])
-  const logout = useCallback(() => { setIsLoggedIn(false) }, [])
+  const login = useCallback(() => {
+    setIsLoggedIn(true);
+  }, []);
+  const logout = useCallback(() => {
+    setIsLoggedIn(false);
+  }, []);
+
+  let routes;
+
+  if (isLoggedIn) {
+    routes = <Switch>
+      <Route exact path="/">
+        <Users />
+      </Route>
+      <Route path="/:uid/places" exact>
+        <UserPlaces />
+      </Route>
+      <Route exact path="/places/new">
+        <NewPlace />
+      </Route>
+      <Route exact path="/places/:placeId">
+        <UpdatePlace />
+      </Route>
+      <Redirect to="/" />
+    </Switch>;
+  } else {
+    routes = <Switch>
+      <Route exact path="/">
+        <Users />
+      </Route>
+      <Route path="/:uid/places" exact>
+        <UserPlaces />
+      </Route>
+      <Route exact path="/auth">
+        <Auth />
+      </Route>
+      <Redirect to="/auth" />
+    </Switch>;
+  }
 
   return (
-    <AuthContext.Provider value={{
-      isLoggedIn, login, logout
-    }}>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn,
+        login,
+        logout,
+      }}
+    >
       <Router>
         <MainNavigation />
-        <Switch>
-          <Route exact path="/">
-            <Users />
-          </Route>
-          <Route path="/:uid/places" exact>
-            <UserPlaces />
-          </Route>
-          <Route exact path="/places/new">
-            <NewPlace />
-          </Route>
-          <Route exact path="/places/:placeId">
-            <UpdatePlace />
-          </Route>
-          <Route exact path="/auth">
-            <Auth />
-          </Route>
-        </Switch>
-        <Redirect to="/" />
+        <main>
+          {routes}
+        </main>
       </Router>
     </AuthContext.Provider>
   );
