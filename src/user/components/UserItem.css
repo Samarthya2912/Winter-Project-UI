@@ -1,3 +1,7 @@
+.user-item {
+    margin: 10px;
+}
+
 .user-item__content {
     display: flex;
     border: solid black 1px;
