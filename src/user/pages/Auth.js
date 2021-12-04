@@ -10,9 +10,10 @@ import {
 import useForm from "../../shared/hooks/form-hook";
 import { AuthContext } from "../../shared/contexts/auth-context";
 
-
 const Auth = (props) => {
   const [loginState, setLoginState] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const auth = useContext(AuthContext);
 
@@ -30,10 +31,54 @@ const Auth = (props) => {
     isValid: false,
   });
 
-  function submitHandler(e) {
+  async function submitHandler(e) {
     e.preventDefault();
-    console.log(formState);
-    auth.login();
+    if (loginState) {
+      try { 
+        setIsLoading(true);
+        const response = await fetch("http://localhost:5000/api/users/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+
+        const resData = await response.json();
+
+        setIsLoading(false);
+        if(!response.ok) throw new Error(resData.message);
+        else auth.login();
+      } catch (error) {
+        setErrorMessage(error.message);
+      }
+    } else {
+      try {
+        setIsLoading(true);
+        const response = await fetch("http://localhost:5000/api/users/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+
+        const resData = await response.json();
+        if(!response.ok) throw new Error(resData.message)
+        else auth.login();
+      } catch (error) {
+        setIsLoading(false);
+        setErrorMessage(error.message);
+        console.log(error.message);
+      }
+    }
   }
 
   function changeLoginStateHandler() {
@@ -42,8 +87,8 @@ const Auth = (props) => {
         {
           ...formState.inputs,
           name: {
-              value: "",
-              isValid: true
+            value: "",
+            isValid: true,
           },
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
@@ -61,6 +106,27 @@ const Auth = (props) => {
       );
     }
     setLoginState(!loginState);
+  }
+
+  if (isLoading) {
+    return <div className="center column"> 
+    <h1>Loading...</h1>;
+    </div>
+  }
+
+  if (errorMessage) {
+    return (
+      <div className="center column">
+        <h1>Error: {errorMessage}</h1>
+        <Button
+          onClick={() => {
+            setErrorMessage(null);
+          }}
+        >
+          Go back!
+        </Button>
+      </div>
+    );
   }
 
   return (
@@ -99,8 +165,9 @@ const Auth = (props) => {
         <Button type="submit" disabled={!formState.isValid}>
           {!loginState ? "SIGNUP" : "LOGIN"}
         </Button>
+        <br />
         <Button type="button" onClick={changeLoginStateHandler} inverse>
-          {loginState ? "SIGNUP" : "LOGIN"}
+          SWITCH TO {loginState ? "SIGNUP" : "LOGIN"}
         </Button>
       </form>
     </div>

@@ -13,7 +13,7 @@ const Users = () => {
     ]
 
     return (
-        <div>
+        <div className="flex column center">
             <UserList users={USERS} />
         </div>
     )
