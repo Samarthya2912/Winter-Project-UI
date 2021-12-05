@@ -4,8 +4,12 @@ import "./NewPlace.css";
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/Utils/Validators";
 import Button from "../../shared/FormElelments/Button";
 import useForm from "../../shared/hooks/form-hook";
+import useApiCall from "../../shared/hooks/api-call-hook";
 
 const NewPlace = (props) => {
+  const [callState, sendRequest, clearError] = useApiCall(false);
+  const { isLoading, errorMessage, data } = callState;
+
   const [formState, InputHandler] = useForm({
     inputs: {
       title: {
@@ -24,10 +28,33 @@ const NewPlace = (props) => {
     isValid: false,
   });
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(formState.inputs);
+    try {
+      await sendRequest("http://localhost:5000/api/places", 
+      "POST", 
+      {
+        title: formState.inputs.title.value,
+        description: formState.inputs.description.value,
+        address: formState.inputs.address.value,
+        creator: "61aaf906cc6339c01aabdb81"
+      },
+      {
+        "Content-Type": "application/json"
+      })
+    } catch(err) {}
   };
+
+  if(callState.isLoading) {
+    return <h1 className="center column">Loading...</h1>
+  }
+
+  if(callState.errorMessage) {
+    return <div className="center column">
+      <h1>Error: {errorMessage}</h1>
+      <Button onClick={clearError}>Go back!</Button>
+    </div>
+  }
 
   return (
     <div className="add-place-wrapper center column">
@@ -62,6 +89,7 @@ const NewPlace = (props) => {
           ADD PLACE
         </Button>
       </form>
+      {data && <h1>ADDED!</h1>}
     </div>
   );
 };
