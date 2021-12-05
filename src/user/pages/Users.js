@@ -1,30 +1,17 @@
 import React, { useEffect, useState } from "react";
 import UserList from "../components/UserList";
+import useApiCall from "../../shared/hooks/api-call-hook";
 
 const Users = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [loadedUsers, setLoadedUsers] = useState([]);
+  const [callState, sendRequest] = useApiCall(true);
+
+  const { isLoading, errorMessage, data } = callState;
 
   useEffect(() => {
-    const getData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch("http://localhost:5000/api/users");
-        const resData = await response.json();
-        console.log(resData);
-        setIsLoading(false);
-        if (response.ok) {
-          setLoadedUsers(resData.users);
-        } else {
-          throw new Error(resData.message);
-        }
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
-    };
-    getData();
-  }, []);
+    sendRequest("http://localhost:5000/api/users");
+  }, [sendRequest])
+
+  console.log(callState);
 
   if (isLoading) {
     return (
@@ -42,9 +29,10 @@ const Users = () => {
     );
   }
 
+
   return (
     <div className="flex center">
-      <UserList users={loadedUsers} />
+      <UserList users={data.users} />
     </div>
   );
 };

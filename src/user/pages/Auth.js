@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import "./Auth.css";
 import Button from "../../shared/FormElelments/Button";
 import Input from "../../shared/FormElelments/Input";
+import useApiCall from "../../shared/hooks/api-call-hook";
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_EMAIL,
@@ -12,8 +13,8 @@ import { AuthContext } from "../../shared/contexts/auth-context";
 
 const Auth = (props) => {
   const [loginState, setLoginState] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [callState, sendRequest, clearError] = useApiCall(false);
+  const { isLoading, errorMessage, data } = callState;
 
   const auth = useContext(AuthContext);
 
@@ -32,52 +33,33 @@ const Auth = (props) => {
   });
 
   async function submitHandler(e) {
-    e.preventDefault();
-    if (loginState) {
-      try { 
-        setIsLoading(true);
-        const response = await fetch("http://localhost:5000/api/users/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-        });
-
-        const resData = await response.json();
-
-        setIsLoading(false);
-        if(!response.ok) throw new Error(resData.message);
-        else auth.login();
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
-    } else {
+    if(!loginState) {
       try {
-        setIsLoading(true);
-        const response = await fetch("http://localhost:5000/api/users/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
+        await sendRequest(
+          "http://localhost:5000/api/users/signup",
+          "POST",
+          {
             name: formState.inputs.name.value,
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
-          }),
-        });
-
-        const resData = await response.json();
-        if(!response.ok) throw new Error(resData.message)
-        else auth.login();
-      } catch (error) {
-        setIsLoading(false);
-        setErrorMessage(error.message);
-        console.log(error.message);
-      }
+          },
+          { "Content-Type": "application/json" },
+        );
+        auth.login();
+      } catch (err) {}
+    } else {
+      try {
+        await sendRequest(
+          "http://localhost:5000/api/users/login",
+          "POST",
+          {
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          },
+          { "Content-Type": "application/json" },
+        );
+        auth.login();
+      } catch (err) {}
     }
   }
 
@@ -109,9 +91,11 @@ const Auth = (props) => {
   }
 
   if (isLoading) {
-    return <div className="center column"> 
-    <h1>Loading...</h1>;
-    </div>
+    return (
+      <div className="center column">
+        <h1>Loading...</h1>;
+      </div>
+    );
   }
 
   if (errorMessage) {
@@ -120,7 +104,7 @@ const Auth = (props) => {
         <h1>Error: {errorMessage}</h1>
         <Button
           onClick={() => {
-            setErrorMessage(null);
+            clearError();
           }}
         >
           Go back!
