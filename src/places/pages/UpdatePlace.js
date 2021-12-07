@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import "./UpdatePlace.css";
 import Button from "../../shared/FormElelments/Button";
@@ -8,38 +8,13 @@ import {
   VALIDATOR_REQUIRE,
 } from "../../shared/Utils/Validators";
 import useForm from "../../shared/hooks/form-hook";
-
-const DUMMY_PLACES = [
-  {
-    id: "p1",
-    title: "Empire State Building",
-    description: "One of the most famous skyscrapers in the world!",
-    imageUrl:
-      "https://bsmedia.business-standard.com/_media/bs/img/article/2021-09/20/full/1632080404-7898.jpg",
-    address: "20 W 34th St, New York, NY 10001, United States",
-    location: {
-      lat: 40.7484405,
-      lng: -73.9878531,
-    },
-    creator: "u1",
-  },
-  {
-    id: "p2",
-    title: "Empire State Building",
-    description: "One of the most famous skyscrapers in the world!",
-    imageUrl:
-      "https://bsmedia.business-standard.com/_media/bs/img/article/2021-09/20/full/1632080404-7898.jpg",
-    address: "20 W 34th St, New York, NY 10001, United States",
-    location: {
-      lat: 40.7484405,
-      lng: -73.9878531,
-    },
-    creator: "u1",
-  },
-];
+import useApiCall from "../../shared/hooks/api-call-hook";
 
 const UpdatePlace = (props) => {
   const { placeId } = useParams();
+  const [place, setPlace] = useState(null);
+  const [fetching, setFetching] = useState(true);
+  const [callState, sendRequest, clearError] = useApiCall(false);
 
   const [formState, InputHandler, setFormData] = useForm({
     inputs: {
@@ -50,37 +25,32 @@ const UpdatePlace = (props) => {
     isValid: false,
   });
 
-  const requiredPlace = DUMMY_PLACES.filter((place) => place.id === placeId);
+  async function submitHandler() {
+    try {
+      await sendRequest(`http://localhost:5000/api/places/${placeId}`, "PATCH", {
+        title: formState.inputs.title.value,
+        address: formState.inputs.address.value,
+        description: formState.inputs.description.value,
+      }, {"Content-Type": "application/json" })
+    } catch(err) {}
+  }
 
-  useEffect(() => {
-    setFormData({
-      title: {
-        value: requiredPlace.title,
-        isValid: true,
-      },
-      description: {
-        value: requiredPlace.description,
-        isValid: true,
-      },
-      address: {
-        value: requiredPlace.address,
-        isValid: true,
-      },
-    }, true);
-  }, []);
+  if(callState.isLoading) {
+    return <div className="center column">
+      <h1>Loading...</h1>
+    </div>
+  }
 
-  if (!requiredPlace) {
-    return (
-      <div className="center column">
-        <h1>Loading...</h1>
-      </div>
-    );
+  if(callState.errorMessage) {
+    return <div className="center column">
+      <h1>Error: {callState.errorMessage}</h1>
+    </div>
   }
 
   return (
     <div className="update-place-wrapper center column">
       <h2>Update Place</h2>
-      <form>
+      <form onSubmit={submitHandler}>
         <Input
           id="title"
           element="input"
@@ -116,6 +86,7 @@ const UpdatePlace = (props) => {
           UPDATE PLACE
         </Button>
       </form>
+      {callState.data && "UPDATED"}
     </div>
   );
 };

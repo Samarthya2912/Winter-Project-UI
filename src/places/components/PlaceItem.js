@@ -25,9 +25,9 @@ const PlaceItem = (props) => {
     setDeleteModal(false);
   }
 
-  function confirmDeleteHandler() {
+  async function confirmDeleteHandler() {
     setDeleteModal(false);
-    console.log("deleting");
+    
   }
 
   return (
