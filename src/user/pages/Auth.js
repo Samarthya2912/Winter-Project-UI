@@ -45,7 +45,7 @@ const Auth = (props) => {
           },
           { "Content-Type": "application/json" },
         );
-        auth.login();
+        auth.login(data.user.id);
       } catch (err) {}
     } else {
       try {
@@ -58,7 +58,7 @@ const Auth = (props) => {
           },
           { "Content-Type": "application/json" },
         );
-        auth.login();
+        auth.login(data.user.id);
       } catch (err) {}
     }
   }

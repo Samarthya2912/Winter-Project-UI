@@ -8,7 +8,11 @@ const Users = () => {
   const { isLoading, errorMessage, data } = callState;
 
   useEffect(() => {
-    sendRequest("http://localhost:5000/api/users");
+    (async function() {
+      try {
+        await sendRequest("http://localhost:5000/api/users");
+      } catch(err) {}
+    })()
   }, [sendRequest])
 
   console.log(callState);
@@ -24,7 +28,7 @@ const Users = () => {
   if (errorMessage) {
     return (
       <div className="center column">
-        <h1>{errorMessage}</h1>
+        <h1>{"Error: " + errorMessage}</h1>
       </div>
     );
   }

@@ -62,7 +62,7 @@ const PlaceItem = (props) => {
       <li className="place-item">
         <img
           className="place-item__image"
-          src={props.imageUrl}
+          src={props.image}
           alt={props.title}
         />
         <div className="place-item__info center column">

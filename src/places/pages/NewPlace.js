@@ -1,14 +1,16 @@
-import React, { useCallback, useReducer } from "react";
+import React, { useCallback, useContext, useReducer } from "react";
 import Input from "../../shared/FormElelments/Input";
 import "./NewPlace.css";
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/Utils/Validators";
 import Button from "../../shared/FormElelments/Button";
 import useForm from "../../shared/hooks/form-hook";
 import useApiCall from "../../shared/hooks/api-call-hook";
+import { AuthContext } from "../../shared/contexts/auth-context";
 
 const NewPlace = (props) => {
   const [callState, sendRequest, clearError] = useApiCall(false);
   const { isLoading, errorMessage, data } = callState;
+  const { userId } = useContext(AuthContext);
 
   const [formState, InputHandler] = useForm({
     inputs: {
@@ -37,7 +39,7 @@ const NewPlace = (props) => {
         title: formState.inputs.title.value,
         description: formState.inputs.description.value,
         address: formState.inputs.address.value,
-        creator: "61aaf906cc6339c01aabdb81"
+        creator: userId,
       },
       {
         "Content-Type": "application/json"

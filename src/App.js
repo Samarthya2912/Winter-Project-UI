@@ -11,16 +11,23 @@ import NewPlace from "./places/pages/NewPlace";
 import UpdatePlace from "./places/pages/UpdatePlace";
 import Auth from "./user/pages/Auth";
 import { AuthContext } from "./shared/contexts/auth-context";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(null);
 
-  const login = useCallback(() => {
+  useEffect(() => {
+    console.log(userId);
+  }, [userId])
+
+  const login = useCallback((userId) => {
     setIsLoggedIn(true);
+    setUserId(userId);
   }, []);
   const logout = useCallback(() => {
     setIsLoggedIn(false);
+    setUserId(null);
   }, []);
 
   let routes;
@@ -60,6 +67,7 @@ function App() {
     <AuthContext.Provider
       value={{
         isLoggedIn,
+        userId,
         login,
         logout,
       }}
