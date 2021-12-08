@@ -16,14 +16,12 @@ import { useCallback, useEffect, useState } from "react";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [token, setToken] = useState(null);
 
-  useEffect(() => {
-    console.log(userId);
-  }, [userId])
-
-  const login = useCallback((userId) => {
+  const login = useCallback((userId, token) => {
     setIsLoggedIn(true);
     setUserId(userId);
+    setToken(token);
   }, []);
   const logout = useCallback(() => {
     setIsLoggedIn(false);
@@ -68,6 +66,7 @@ function App() {
       value={{
         isLoggedIn,
         userId,
+        token,
         login,
         logout,
       }}

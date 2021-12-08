@@ -15,8 +15,6 @@ const Users = () => {
     })()
   }, [sendRequest])
 
-  console.log(callState);
-
   if (isLoading) {
     return (
       <div className="center column">

@@ -10,7 +10,8 @@ import { AuthContext } from "../../shared/contexts/auth-context";
 const NewPlace = (props) => {
   const [callState, sendRequest, clearError] = useApiCall(false);
   const { isLoading, errorMessage, data } = callState;
-  const { userId } = useContext(AuthContext);
+  const auth = useContext(AuthContext);
+  const { userId, token } = auth;
 
   const [formState, InputHandler] = useForm({
     inputs: {
@@ -42,7 +43,8 @@ const NewPlace = (props) => {
         creator: userId,
       },
       {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       })
     } catch(err) {}
   };

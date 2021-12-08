@@ -45,7 +45,8 @@ const Auth = (props) => {
           },
           { "Content-Type": "application/json" },
         );
-        auth.login(data.user.id);
+        auth.login(callState.data.userId, callState.data.token);
+        console.log("res data:" + callState.data);
       } catch (err) {}
     } else {
       try {
@@ -58,7 +59,7 @@ const Auth = (props) => {
           },
           { "Content-Type": "application/json" },
         );
-        auth.login(data.user.id);
+        auth.login(callState.data.userId, callState.data.token);
       } catch (err) {}
     }
   }
